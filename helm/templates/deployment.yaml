@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home-alarm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home-alarm
+  template:
+    metadata:
+      labels:
+        app: home-alarm
+    spec:
+      containers:
+        - name: home-alarm-container
+          image: "localhost/home-alarm:latest"
+          imagePullPolicy: Never
+          env:
+            - name: "CONFIG_FILE"
+              value: "config.yml"
+            - name: "ALARM_PIN"
+              valueFrom:
+                secretKeyRef:
+                  name: home-alarm-pin
+                  key: alarm-pin
+            - name: "PUSHOVER_USER"
+              valueFrom:
+                secretKeyRef:
+                  name: home-alarm-pushover
+                  key: pushover-user
+            - name: "PUSHOVER_TOKEN"
+              valueFrom:
+                secretKeyRef:
+                  name: home-alarm-pushover
+                  key: pushover-token
+          volumeMounts:
+          - name: home-alarm-config
+            mountPath: /home/node/home-alarm/config.yml
+            subPath: config.yml
+          - name: home-alarm-state
+            mountPath: /data
+          securityContext:
+            capabilities:
+              add:
+                - NET_RAW
+      volumes:
+        - name: home-alarm-config
+          configMap:
+            name: home-alarm-config-map
+            items:
+              - key: config.yml
+                path: config.yml
+        - name: home-alarm-state
+          persistentVolumeClaim:
+            claimName: home-alarm-pvc

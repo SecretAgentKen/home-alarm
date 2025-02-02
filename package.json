@@ -1,0 +1,24 @@
+{
+  "name": "home-alarm",
+  "version": "1.0.0",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "description": "",
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@types/node": "^20.17.16",
+    "eslint": "^9.19.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-vue": "^9.32.0",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.22.0"
+  },
+  "scripts": {
+    "build": "cd frontend && npm run build && cd ../backend && npm run build",
+    "fix": "cd frontend && npm run fix && cd ../backend && npm run fix"
+  }
+}

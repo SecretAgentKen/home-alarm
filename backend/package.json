@@ -1,0 +1,31 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "fix": "eslint . --fix && prettier . --write"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "lodash": "^4.17.21",
+    "pushover-notifications": "^1.2.3",
+    "xstate": "^5.19.2",
+    "yaml": "^2.7.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/express-sse": "^0.5.0",
+    "@types/helmet": "^0.0.48",
+    "@types/lodash": "^4.17.15"
+  }
+}

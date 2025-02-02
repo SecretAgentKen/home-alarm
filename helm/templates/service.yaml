@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: home-alarm-web
+spec:
+  selector:
+    app: home-alarm
+  type: LoadBalancer
+  ports:
+    - port: 8000
+      targetPort: 8000

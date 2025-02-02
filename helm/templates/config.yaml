@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: home-alarm-config-map
+data:
+  config.yml: |
+{{ .Files.Get "personal.config.yml" | indent 4 }}

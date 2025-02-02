@@ -1,0 +1,76 @@
+server:
+  timers:
+    # Timers are in seconds
+    arming: 60
+    presentable: 600
+    emergency: 20
+  stateFile: /data/alarmArmed
+sensors:
+  - type: konnected
+    settings:
+      host: 192.168.1.2
+      port: 12345
+      id: deadbeef
+      config:
+        sensors:
+          - pin: 1
+          - pin: 2
+          - pin: 5
+          - pin: 6
+        actuators: []
+        dht_sensors: []
+        ds18b20_sensors: []
+        token: MySecretToken
+        apiUrl: https://192.168.1.1:8000/konnected
+    mappings:
+      - pin: 1
+        notifierKey: doorSensor
+        id: Front Door
+  - type: ping
+    settings:
+      host: 192.168.1.100
+      notifierKey: personHome
+      id: Some Person
+collectors:
+  - key: doorSensor
+    type: collector
+    trigger: TRIP
+    allowArm: false
+    icon:
+      inactive:
+        icon: door-closed
+      active:
+        icon: door-open
+        style:
+          color: oklch(0.637 0.237 25.331)
+  - key: personHome
+    type: collector
+    trigger: PRESENCE
+    allowArm: true
+notifiers:
+  - key: pushover
+    type: pushover
+    notifyOn:
+      - initialized
+      - armedEarly
+      - disarmed
+      - tripped
+      - emergency
+    messages:
+      initialized: Alarm Initialized
+      armedEarly: Alarm Armed
+      disarmed: Alarm Disarmed
+      tripped: Alarm Tripped
+      emergency: ALARM ACTIVE
+  - key: audio
+    type: audio
+    notifyOn:
+      - tripped
+      - emergency
+    audio:
+      tripped:
+        path: tripped.wav
+        loop: true
+      emergency:
+        path: emergency.wav
+        loop: true

@@ -1,0 +1,8 @@
+apiVersion: v2
+name: home-alarm
+description: ""
+type: application
+# For chart
+version: 0.1.0
+# For app
+appVersion: "2.0.0"
