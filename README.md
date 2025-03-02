@@ -5,7 +5,7 @@ Node app for my alarm system
 
 - Create a `personal.config.yml` with all settings in the helm directory. (Copy sample.yml as an example)
 - Copy any audio files referenced in `personal.config.yml` into a `frontend/public/audio` directory
-- Build the frontend and backend with `npm run build` in the base directory
+- Build the frontend and backend with `npm run clean` and `npm run build` in the base directory
 - Create image with `sudo podman build . -t home-alarm`
 - Output image as tar with `sudo podman save --output alarm.tar localhost/home-alarm`
 - Transfer to cluster

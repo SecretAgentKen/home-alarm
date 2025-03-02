@@ -17,6 +17,8 @@ export function createAlarmServer(
   config: ConfigurationFile
 ) {
   const app = express()
+  let lastSnapshot = ''
+  const collectors = {} as Record<string, string[]>
 
   app.use(helmet())
   app.use(bodyParser.json())
@@ -29,7 +31,6 @@ export function createAlarmServer(
   app.post('/api/cancel', cancelArm)
   app.use('/api/konnected', konnectedRouter)
 
-  let lastSnapshot = ''
   actor.subscribe((snapshot) => {
     if (lastSnapshot !== snapshot.value) {
       lastSnapshot = snapshot.value
@@ -41,7 +42,7 @@ export function createAlarmServer(
   collector.on(
     'collectorChanged',
     (ev: { notifierKey: string; ids: string[] }) => {
-      console.log('collector', ev)
+      collectors[ev.notifierKey] = ev.ids
       sseSend('collector', ev)
     }
   )
@@ -61,7 +62,9 @@ export function createAlarmServer(
   function getState(_req: Request, res: Response) {
     res.send({
       state: actor.getSnapshot().value,
-      activeSensors: [] // FIXME
+      activeSensors: Object.keys(collectors).filter(
+        (key) => collectors[key].length
+      )
     })
   }
 
