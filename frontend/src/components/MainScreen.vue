@@ -60,7 +60,6 @@ const sensors = computed(() => {
         (c) => c.key === key
       )
       // We only care if allowArm is false and we have a config
-      console.log(config)
       return config && !config.allowArm
       // We now have the keys that would prevent arming, see if anything is set
     })
