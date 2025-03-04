@@ -5,11 +5,13 @@ import axios from 'axios'
 const state = reactive<{
   current: AlarmStates
   activeSensors: string[]
+  sensorMap: Record<string, string[]>
   config: ConfigurationFile | undefined
   isOffline: boolean
 }>({
   current: 'disarmed',
   activeSensors: [],
+  sensorMap: {},
   config: undefined,
   isOffline: true
 })
@@ -44,6 +46,7 @@ function initialize() {
   axios.get('/api/state').then((res) => {
     state.current = res.data.state as AlarmStates
     state.activeSensors = res.data.activeSensors
+    state.sensorMap = res.data.sensorMap
   })
 
   axios.get('/api/config').then((res) => {
@@ -59,6 +62,7 @@ function initialize() {
         state.activeSensors = state.activeSensors.filter(
           (v) => v !== data.value.notifierKey
         )
+        state.sensorMap[data.value.notifierKey] = data.value.ids
         if (data.value.ids.length)
           state.activeSensors.push(data.value.notifierKey)
       }

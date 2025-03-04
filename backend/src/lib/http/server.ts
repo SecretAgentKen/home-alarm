@@ -64,7 +64,8 @@ export function createAlarmServer(
       state: actor.getSnapshot().value,
       activeSensors: Object.keys(collectors).filter(
         (key) => collectors[key].length
-      )
+      ),
+      sensorMap: collectors
     })
   }
 
