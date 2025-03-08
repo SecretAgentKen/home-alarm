@@ -4,6 +4,7 @@ import { createKonnectedSensor } from './sensors/konnected'
 import { Router } from 'express'
 import { CollectorEmitter } from './collectorEmitter'
 import { AlarmActor } from './stateMachine'
+import { createBlaqSensor } from './sensors/blaq'
 
 const state: Record<string, string[]> = {}
 const emitter = new CollectorEmitter()
@@ -25,6 +26,9 @@ export function initializeManager(
     } else if (sensor.type === 'konnected') {
       const konnectedEmitter = createKonnectedSensor(sensor, router)
       konnectedEmitter.on('sensorChanged', updateState)
+    } else if (sensor.type === 'blaq') {
+      const blaqEmitter = createBlaqSensor(sensor)
+      blaqEmitter.on('sensorChanged', updateState)
     }
   })
 

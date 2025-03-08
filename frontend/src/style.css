@@ -2,10 +2,10 @@
 
 @layer components {
   .btn {
-    @apply rounded active:enabled:saturate-200 disabled:opacity-60;
+    @apply rounded p-2 font-semibold active:enabled:saturate-200 disabled:opacity-60;
   }
 
   .btn-big {
-    @apply p-2 text-2xl font-bold;
+    @apply text-2xl;
   }
 }

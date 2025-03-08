@@ -23,7 +23,11 @@ const StateEventSchema = z.enum(['ARM', 'DISARM', 'CANCEL', 'TRIP', 'PRESENCE'])
 export type StateEvent = z.infer<typeof StateEventSchema>
 
 export type SensorEvents = {
-  sensorChanged: { notifierKey: string; id: string; active: boolean }
+  sensorChanged: {
+    notifierKey: string
+    id: string
+    active: boolean
+  }
 }
 
 export type CollectorEvents = {
@@ -76,6 +80,16 @@ const PingSensorSchema = SensorSchema.extend({
 })
 export type PingSensor = z.infer<typeof PingSensorSchema>
 
+const BlaqSensorSchema = SensorSchema.extend({
+  type: z.literal('blaq'),
+  settings: z.object({
+    host: z.string(),
+    notifierKey: z.string(),
+    id: z.string()
+  })
+})
+export type BlaqSensor = z.infer<typeof BlaqSensorSchema>
+
 const CollectorSchema = z.object({
   key: z.string(),
   allowArm: z.boolean(),
@@ -123,6 +137,20 @@ const AudioNotifierSchema = NotifierSchema.extend({
 })
 export type AudioNotifier = z.infer<typeof AudioNotifierSchema>
 
+const ActuatorSchema = z.object({
+  type: z.string(),
+  key: z.string()
+})
+export type Actuator = z.infer<typeof ActuatorSchema>
+
+const BlaqActuatorSchema = ActuatorSchema.extend({
+  type: z.literal('blaq'),
+  settings: z.object({
+    host: z.string()
+  })
+})
+export type BlaqActuator = z.infer<typeof BlaqActuatorSchema>
+
 /**
  * Configuration File
  */
@@ -135,9 +163,12 @@ export const ConfigurationFileSchema = z.object({
     }),
     stateFile: z.string()
   }),
-  sensors: z.array(z.union([KonnectedSensorSchema, PingSensorSchema])),
+  sensors: z.array(
+    z.union([KonnectedSensorSchema, PingSensorSchema, BlaqSensorSchema])
+  ),
   collectors: z.array(CollectorSchema),
-  notifiers: z.array(z.union([AudioNotifierSchema, PushoverNotifierSchema]))
+  notifiers: z.array(z.union([AudioNotifierSchema, PushoverNotifierSchema])),
+  actuators: z.array(BlaqActuatorSchema)
 })
 
 export type ConfigurationFile = z.infer<typeof ConfigurationFileSchema>

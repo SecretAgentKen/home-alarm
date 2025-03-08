@@ -9,6 +9,7 @@ import { ConfigurationFile } from '../types'
 import { AlarmActor } from '../stateMachine'
 import helmet from 'helmet'
 import { CollectorEmitter } from '../collectorEmitter'
+import { actuateBlaq } from '../actuators/blaq'
 
 export function createAlarmServer(
   actor: AlarmActor,
@@ -29,6 +30,7 @@ export function createAlarmServer(
   app.post('/api/arm', arm)
   app.post('/api/disarm', disarm)
   app.post('/api/cancel', cancelArm)
+  app.post('/api/actuate', actuate)
   app.use('/api/konnected', konnectedRouter)
 
   actor.subscribe((snapshot) => {
@@ -89,5 +91,15 @@ export function createAlarmServer(
 
   function getConfig(_req: Request, res: Response) {
     res.send(config)
+  }
+
+  function actuate(req: Request, res: Response) {
+    const cfg = config.actuators.find((act) => act.key === req.body.key)
+    if (cfg) {
+      if (cfg.type === 'blaq') {
+        actuateBlaq(cfg)
+      }
+    }
+    res.send()
   }
 }

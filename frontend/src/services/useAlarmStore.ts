@@ -30,7 +30,8 @@ export function useAlarmStore() {
     arm,
     disarm,
     cancel,
-    initialize
+    initialize,
+    actuate
   }
 }
 
@@ -89,4 +90,8 @@ function cancel() {
 
 function disarm(pin: string) {
   return axios.post('/api/disarm', { pin })
+}
+
+function actuate(key: string) {
+  return axios.post('/api/actuate', { key })
 }
