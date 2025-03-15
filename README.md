@@ -12,6 +12,7 @@ Node app for my alarm system
 - Import with `sudo k3s ctr images import alarm.tar`
 - Create a secret pin with `kubectl create secret generic home-alarm-pin --from-literal='alarm-pin=1234'`
 - If using Pushover, create a secret user/token with `kubectl create secret generic home-alarm-pushover --from-literal='pushover-user=abcd' --from-literal='pushover-token=abcd'`
+- If using Konnected blaQ, create a secret user/password with `kubectl create secret generic home-alarm-blaq --from-literal='blaq-user=abcd' --from-literal='blaq-password=abcd'`
 - Install with helm from the helm dir: `helm install home-alarm .` 
 
 # SSL NOTE: You MUST use 2048 due to konnected limitations

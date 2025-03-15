@@ -6,7 +6,11 @@ export function createBlaqSensor(config: BlaqSensor) {
   const emitter = new SensorEmitter()
 
   const client = axios.create({
-    baseURL: `http://${config.settings.host}`
+    baseURL: `http://${config.settings.host}`,
+    auth: {
+      username: process.env.BLAQ_USER!,
+      password: process.env.BLAQ_PASSWORD!
+    }
   })
 
   ;(async () => {

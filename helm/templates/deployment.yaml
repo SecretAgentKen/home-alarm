@@ -34,6 +34,16 @@ spec:
                 secretKeyRef:
                   name: home-alarm-pushover
                   key: pushover-token
+            - name: "BLAQ_USER"
+              valueFrom:
+                secretKeyRef:
+                  name: home-alarm-blaq
+                  key: blaq-user
+            - name: "BLAQ_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: home-alarm-blaq
+                  key: blaq-password
           volumeMounts:
           - name: home-alarm-config
             mountPath: /home/node/home-alarm/config.yml
